@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import Router from './Router';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 // createGlobalStyle : 전역으로 부를 수 있는 스타일 컴포넌트를 생성
 const GlobalStyle = createGlobalStyle`
@@ -37,8 +38,8 @@ footer, header, hgroup, main, menu, nav, section {
 body {
   line-height: 1;
   font-family: 'Roboto', sans-serif;
-  background-color: ${props => props.theme.bgColor};
-  color: ${props => props.theme.textColor};
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
 }
 menu, ol, ul {
   list-style: none;
@@ -66,12 +67,16 @@ a {
 
 // Fragment : 유령 컴포넌트<>. 여러 컴포넌트를 한 번에 리턴할 수 있도록 해줌(div로 감싸지 않고!)
 function App() {
-  return (
-    <>
-      <GlobalStyle />
-      <Router />
-    </>
-  );
+	return (
+		<>
+			<GlobalStyle />
+			<Router />
+			{
+				// initialIsOpen=true 로 설정하면 리액트 쿼리에서 받아오는 데이터를 볼 수 있음
+			}
+			<ReactQueryDevtools initialIsOpen={false} />
+		</>
+	);
 }
 
 export default App;
