@@ -35,8 +35,7 @@ const Loader = styled.h4`
 const CoinList = styled.ul``;
 
 const Coin = styled.li`
-	background-color: rgba(255, 255, 255, 0.5);
-	color: ${(props) => props.theme.bgColor};
+	background-color: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
 	margin-bottom: 10px;
 	transition: all 0.3s;
@@ -48,7 +47,7 @@ const Coin = styled.li`
 	}
 	&:hover {
 		color: ${(props) => props.theme.accentColor};
-		background-color: rgba(255, 255, 255, 0.2);
+		background-color: ${(props) => props.theme.darkerShadeColor};
 	}
 `;
 

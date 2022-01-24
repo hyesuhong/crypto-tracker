@@ -1,6 +1,12 @@
 import { useQuery } from 'react-query';
 import { fetchCoinHistory } from '../api';
 import ApexChart from 'react-apexcharts';
+import styled from 'styled-components';
+
+const Container = styled.div`
+	background: ${(props) => props.theme.darkerShadeColor};
+	border-radius: 5px;
+`;
 
 interface ChartProps {
 	coinId: string;
@@ -20,42 +26,40 @@ interface ICoinHistory {
 function Chart({ coinId }: ChartProps) {
 	const { isLoading, data } = useQuery<ICoinHistory[]>(
 		['ohlcv', coinId],
-		() => fetchCoinHistory(coinId),
-		{ refetchInterval: 10000 }
+		() => fetchCoinHistory(coinId)
+		// { refetchInterval: 10000 }
 	);
 	return (
-		<div>
+		<Container>
 			{isLoading ? (
 				'Loading chart...'
 			) : (
 				<ApexChart
-					type='line'
+					type='candlestick'
 					series={[
 						{
-							name: 'close price',
-							data: data?.map((price) => price.close),
+							name: 'Price',
+							data: data?.map((price) => ({
+								x: price.time_close,
+								y: [price.open, price.high, price.low, price.close],
+							})),
 						},
 					]}
 					options={{
 						yaxis: {
 							show: false,
+							tooltip: {
+								enabled: true,
+							},
 						},
 						xaxis: {
 							type: 'datetime',
-							categories: data?.map((price) => price.time_close),
-							labels: {
-								show: false,
-								datetimeFormatter: {
-									year: 'yyyy',
-									month: 'yy-MMM',
-									day: 'MMM-dd',
-								},
-							},
 							axisBorder: { show: false },
 							axisTicks: { show: false },
 						},
 						theme: { mode: 'dark' },
 						chart: {
+							type: 'candlestick',
 							height: 500,
 							width: 500,
 							toolbar: {
@@ -63,18 +67,23 @@ function Chart({ coinId }: ChartProps) {
 							},
 							background: 'transparent',
 						},
-						stroke: { curve: 'smooth', width: 2 },
-						fill: {
-							type: 'gradient',
-							gradient: { gradientToColors: ['#4780a6'], stops: [0, 100] },
+						plotOptions: {
+							candlestick: {
+								colors: {
+									upward: '#0ed27a',
+									downward: '#d3413b',
+								},
+							},
 						},
-						colors: [`#54c7f4`],
-						grid: { show: false },
+						fill: {
+							type: 'solid',
+						},
 						tooltip: { y: { formatter: (value) => `$${value.toFixed(3)}` } },
+						title: { text: 'Price(closed time - 15d)', offsetY: 10 },
 					}}
 				/>
 			)}
-		</div>
+		</Container>
 	);
 }
 

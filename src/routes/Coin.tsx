@@ -16,10 +16,41 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
+	position: relative;
 	height: 60px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`;
+
+const BackBtn = styled.button`
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	transform: translateY(-50%);
+	width: 30px;
+	height: 30px;
+	background: transparent;
+	border: none;
+	outline: none;
+	padding: 0;
+	&::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 50%;
+		height: 50%;
+		border-top: 2px solid ${(props) => props.theme.shadeColor};
+		border-left: 2px solid ${(props) => props.theme.shadeColor};
+		transform: translate(-50%, -50%) rotate(-45deg);
+		pointer-events: none;
+	}
+	a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
 `;
 
 const Title = styled.h1`
@@ -53,7 +84,7 @@ const InfoSummary = styled.dt`
 	align-itmes: center;
 	justify-content: space-between;
 	padding: 10px 20px;
-	background: #505561;
+	background: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
 	text-align: center;
 	line-height: 120%;
@@ -79,7 +110,7 @@ const Tab = styled.span<{ isActive: boolean }>`
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 12px;
-	background-color: #505561;
+	background-color: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
 	color: ${(props) =>
 		props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -185,6 +216,9 @@ function Coin() {
 				</title>
 			</Helmet>
 			<Header>
+				<BackBtn>
+					<Link to='/' />
+				</BackBtn>
 				<Title>
 					{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
 				</Title>
@@ -207,7 +241,7 @@ function Coin() {
 							</p>
 							<p>
 								<span>Price</span>
-								<br />${tickersData?.quotes.USD.price.toFixed(3)}
+								<br />$ {tickersData?.quotes.USD.price.toFixed(3)}
 							</p>
 						</InfoSummary>
 						<InfoDesc>{infoData?.description}</InfoDesc>
@@ -238,7 +272,44 @@ function Coin() {
 
 					<Routes>
 						<Route path='chart' element={<Chart coinId={coinId} />} />
-						<Route path='price' element={<Price />} />
+						<Route
+							path='price'
+							element={
+								<Price
+									coinId={coinId}
+									price={
+										tickersData?.quotes.USD.price
+											? tickersData?.quotes.USD.price
+											: 0
+									}
+									percent_change_15m={
+										tickersData?.quotes.USD.percent_change_15m
+											? tickersData?.quotes.USD.percent_change_15m
+											: 0
+									}
+									market_cap={
+										tickersData?.quotes.USD.market_cap
+											? tickersData?.quotes.USD.market_cap
+											: 0
+									}
+									market_cap_change_24h={
+										tickersData?.quotes.USD.market_cap_change_24h
+											? tickersData?.quotes.USD.market_cap_change_24h
+											: 0
+									}
+									volume_24h={
+										tickersData?.quotes.USD.volume_24h
+											? tickersData?.quotes.USD.volume_24h
+											: 0
+									}
+									volume_24h_change_24h={
+										tickersData?.quotes.USD.volume_24h_change_24h
+											? tickersData?.quotes.USD.volume_24h_change_24h
+											: 0
+									}
+								/>
+							}
+						/>
 					</Routes>
 				</>
 			)}
