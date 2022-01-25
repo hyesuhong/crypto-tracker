@@ -1,11 +1,13 @@
 import { DefaultTheme } from 'styled-components';
 
 export const lightTheme: DefaultTheme = {
-	bgColor: 'cornsilk',
+	bgColor: '#fafafa',
 	textColor: '#141414',
-	accentColor: 'tomato',
-	shadeColor: '#999',
-	darkerShadeColor: '#777',
+	accentColor: '#0f76dd',
+	shadeColor: '#eee',
+	darkerShadeColor: '#ddd',
+	upwardColor: '#0ab72d',
+	downwardColor: '#c3130c',
 };
 
 export const darkTheme: DefaultTheme = {
@@ -14,4 +16,6 @@ export const darkTheme: DefaultTheme = {
 	accentColor: '#54c7f4',
 	shadeColor: '#505561',
 	darkerShadeColor: '#40444e',
+	upwardColor: '#0ed27a',
+	downwardColor: '#d3413b',
 };

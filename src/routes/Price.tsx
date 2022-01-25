@@ -25,10 +25,10 @@ const PriceDetail = styled.dd`
 const ChangePercent = styled.span<{ changeRate: number }>`
 	color: ${(props) =>
 		props.changeRate > 0
-			? '#0ed27a'
+			? props.theme.upwardColor
 			: props.changeRate == 0
 			? props.theme.textColor
-			: '#d3413b'};
+			: props.theme.downwardColor};
 	&::before {
 		content: '${(props) => props.changeRate}';
 	}

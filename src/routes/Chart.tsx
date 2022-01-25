@@ -10,6 +10,7 @@ const Container = styled.div`
 
 interface ChartProps {
 	coinId: string;
+	isDark: boolean;
 }
 
 interface ICoinHistory {
@@ -23,7 +24,7 @@ interface ICoinHistory {
 	market_cap: number;
 }
 
-function Chart({ coinId }: ChartProps) {
+function Chart({ coinId, isDark }: ChartProps) {
 	const { isLoading, data } = useQuery<ICoinHistory[]>(
 		['ohlcv', coinId],
 		() => fetchCoinHistory(coinId)
@@ -57,7 +58,7 @@ function Chart({ coinId }: ChartProps) {
 							axisBorder: { show: false },
 							axisTicks: { show: false },
 						},
-						theme: { mode: 'dark' },
+						theme: { mode: isDark ? 'dark' : 'light' },
 						chart: {
 							type: 'candlestick',
 							height: 500,

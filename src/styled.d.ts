@@ -14,5 +14,7 @@ declare module 'styled-components' {
 		accentColor: string;
 		shadeColor: string;
 		darkerShadeColor: string;
+		upwardColor: string;
+		downwardColor: string;
 	}
 }

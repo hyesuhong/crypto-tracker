@@ -131,7 +131,10 @@ interface ILocation {
 	};
 }
 
-// 타입 정해주기...
+interface ICoinProps {
+	isDark: boolean;
+}
+
 interface IInfoData {
 	id: string;
 	name: string;
@@ -187,7 +190,7 @@ interface IPriceData {
 	};
 }
 
-function Coin() {
+function Coin({ isDark }: ICoinProps) {
 	const { coinId } = useParams() as IParams;
 	const { state } = useLocation() as ILocation;
 	const priceMatch = useMatch('/:coinId/price');
@@ -271,7 +274,10 @@ function Coin() {
 					</Tabs>
 
 					<Routes>
-						<Route path='chart' element={<Chart coinId={coinId} />} />
+						<Route
+							path='chart'
+							element={<Chart coinId={coinId} isDark={isDark} />}
+						/>
 						<Route
 							path='price'
 							element={

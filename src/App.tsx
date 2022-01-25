@@ -1,6 +1,8 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { darkTheme, lightTheme } from './theme';
+import { useState } from 'react';
 
 // createGlobalStyle : 전역으로 부를 수 있는 스타일 컴포넌트를 생성
 const GlobalStyle = createGlobalStyle`
@@ -67,16 +69,28 @@ a {
 
 // Fragment : 유령 컴포넌트<>. 여러 컴포넌트를 한 번에 리턴할 수 있도록 해줌(div로 감싸지 않고!)
 function App() {
+	const [isDark, setIsDark] = useState(false);
+	const toggleTheme = () => setIsDark((current) => !current);
 	return (
 		<>
-			<GlobalStyle />
-			<Router />
-			{
-				// initialIsOpen=true 로 설정하면 리액트 쿼리에서 받아오는 데이터를 볼 수 있음
-			}
-			<ReactQueryDevtools initialIsOpen={false} />
+			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+				<GlobalStyle />
+				<Router toggleTheme={toggleTheme} isDark={isDark} />
+				{
+					// initialIsOpen=true 로 설정하면 리액트 쿼리에서 받아오는 데이터를 볼 수 있음
+				}
+				<ReactQueryDevtools initialIsOpen={false} />
+			</ThemeProvider>
 		</>
 	);
 }
 
 export default App;
+
+/*
+App(isDark, modifierFn)
+-> Router -> Coins(modifier)
+-> Router -> Coin -> Chart
+이게 global state의 정의 : 어플리케이션이 특정값을 어디에서든 접근할 때 사용(isDark처럼)
+기본 react에서는 모든 컴포넌트에 props로 다 내려보내줘야 함 -> state management가 필요한 이유
+*/
