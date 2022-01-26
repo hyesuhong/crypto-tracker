@@ -2,8 +2,10 @@
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled, { keyframes } from 'styled-components';
 import { fetchCoins } from '../api';
+import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
 	max-width: 480px;
@@ -62,10 +64,6 @@ const Title = styled.h1`
 	color: ${(props) => props.theme.accentColor};
 `;
 
-interface ICoinsProps {
-	toggleTheme: () => void;
-}
-
 interface ICoin {
 	id: string;
 	name: string;
@@ -76,8 +74,12 @@ interface ICoin {
 	type: string;
 }
 
-function Coins({ toggleTheme }: ICoinsProps) {
+function Coins() {
 	const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+
+	// atom을 수정하는 훅
+	const setterIsDark = useSetRecoilState(isDarkAtom);
+	const toggleTheme = () => setterIsDark((prev) => !prev);
 
 	return (
 		<Container>
@@ -86,7 +88,7 @@ function Coins({ toggleTheme }: ICoinsProps) {
 			</Helmet>
 			<Header>
 				<Title>Coin List</Title>
-				<button onClick={toggleTheme}>Toggle</button>
+				<button onClick={toggleTheme}>Toggle Theme</button>
 			</Header>
 			{isLoading ? (
 				<Loader>Loading...</Loader>

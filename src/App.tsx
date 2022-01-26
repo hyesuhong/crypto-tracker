@@ -3,6 +3,8 @@ import Router from './Router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { darkTheme, lightTheme } from './theme';
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 // createGlobalStyle : 전역으로 부를 수 있는 스타일 컴포넌트를 생성
 const GlobalStyle = createGlobalStyle`
@@ -69,13 +71,12 @@ a {
 
 // Fragment : 유령 컴포넌트<>. 여러 컴포넌트를 한 번에 리턴할 수 있도록 해줌(div로 감싸지 않고!)
 function App() {
-	const [isDark, setIsDark] = useState(false);
-	const toggleTheme = () => setIsDark((current) => !current);
+	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
 			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 				<GlobalStyle />
-				<Router toggleTheme={toggleTheme} isDark={isDark} />
+				<Router />
 				{
 					// initialIsOpen=true 로 설정하면 리액트 쿼리에서 받아오는 데이터를 볼 수 있음
 				}
