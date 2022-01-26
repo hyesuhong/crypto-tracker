@@ -1,23 +1,13 @@
-// import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 import styled, { keyframes } from 'styled-components';
 import { fetchCoins } from '../api';
-import { isDarkAtom } from '../atoms';
+import Header from '../components/Header';
 
 const Container = styled.div`
 	max-width: 480px;
 	padding: 0 20px;
 	margin: 0 auto;
-`;
-
-const Header = styled.header`
-	height: 60px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `;
 
 const blinkAni = keyframes`
@@ -47,9 +37,22 @@ const Coin = styled.li`
 		align-items: center;
 		padding: 20px;
 	}
+	a::after {
+		content: '→';
+		flex: 1;
+		text-align: right;
+		opacity: 0;
+		transform: translateX(-5px);
+		transition: all 0.3s;
+	}
 	&:hover {
 		color: ${(props) => props.theme.accentColor};
 		background-color: ${(props) => props.theme.darkerShadeColor};
+
+		a::after {
+			opacity: 1;
+			transform: translateX(0);
+		}
 	}
 `;
 
@@ -57,11 +60,6 @@ const Img = styled.img`
 	width: 20px;
 	height: 20px;
 	margin-right: 5px;
-`;
-
-const Title = styled.h1`
-	font-size: 30px;
-	color: ${(props) => props.theme.accentColor};
 `;
 
 interface ICoin {
@@ -77,19 +75,9 @@ interface ICoin {
 function Coins() {
 	const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
 
-	// atom을 수정하는 훅
-	const setterIsDark = useSetRecoilState(isDarkAtom);
-	const toggleTheme = () => setterIsDark((prev) => !prev);
-
 	return (
 		<Container>
-			<Helmet>
-				<title>Coin List</title>
-			</Helmet>
-			<Header>
-				<Title>Coin List</Title>
-				<button onClick={toggleTheme}>Toggle Theme</button>
-			</Header>
+			<Header title='Coin List' />
 			{isLoading ? (
 				<Loader>Loading...</Loader>
 			) : (
@@ -101,7 +89,7 @@ function Coins() {
 									src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
 									alt=''
 								/>
-								{coin.name} &rarr;
+								{coin.name}
 							</Link>
 						</Coin>
 					))}

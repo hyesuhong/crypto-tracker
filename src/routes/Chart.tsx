@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { isDarkAtom } from '../atoms';
 
 const Container = styled.div`
-	background: ${(props) => props.theme.darkerShadeColor};
+	background: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
 `;
 

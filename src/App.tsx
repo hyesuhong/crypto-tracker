@@ -80,7 +80,7 @@ function App() {
 				{
 					// initialIsOpen=true 로 설정하면 리액트 쿼리에서 받아오는 데이터를 볼 수 있음
 				}
-				<ReactQueryDevtools initialIsOpen={false} />
+				{/* <ReactQueryDevtools initialIsOpen={true} /> */}
 			</ThemeProvider>
 		</>
 	);

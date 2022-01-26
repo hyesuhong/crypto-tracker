@@ -1,11 +1,10 @@
-// import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { Route, useMatch } from 'react-router';
 import { Routes, useLocation, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { fetchCoinInfo, fetchCoinTickers } from '../api';
+import Header from '../components/Header';
 import Chart from './Chart';
 import Price from './Price';
 
@@ -13,49 +12,6 @@ const Container = styled.div`
 	max-width: 480px;
 	padding: 0 20px;
 	margin: 0 auto;
-`;
-
-const Header = styled.header`
-	position: relative;
-	height: 60px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const BackBtn = styled.button`
-	position: absolute;
-	top: 50%;
-	left: 10px;
-	transform: translateY(-50%);
-	width: 30px;
-	height: 30px;
-	background: transparent;
-	border: none;
-	outline: none;
-	padding: 0;
-	&::before {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 50%;
-		height: 50%;
-		border-top: 2px solid ${(props) => props.theme.shadeColor};
-		border-left: 2px solid ${(props) => props.theme.shadeColor};
-		transform: translate(-50%, -50%) rotate(-45deg);
-		pointer-events: none;
-	}
-	a {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-`;
-
-const Title = styled.h1`
-	font-size: 30px;
-	color: ${(props) => props.theme.accentColor};
 `;
 
 const blinkAni = keyframes`
@@ -210,19 +166,15 @@ function Coin() {
 
 	return (
 		<Container>
-			<Helmet>
-				<title>
-					{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
-				</title>
-			</Helmet>
-			<Header>
-				<BackBtn>
-					<Link to='/' />
-				</BackBtn>
-				<Title>
-					{state?.name ? state.name : loading ? 'Loading...' : infoData?.name}
-				</Title>
-			</Header>
+			<Header
+				title={
+					state?.name
+						? state.name
+						: loading
+						? 'Loading...'
+						: (infoData?.name as string)
+				}
+			/>
 			{loading ? (
 				<Loader>Loading...</Loader>
 			) : (
