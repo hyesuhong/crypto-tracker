@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const PriceList = styled.dl`
 	margin-bottom: 10px;
 	padding: 10px;
-	background: ${(props) => props.theme.darkerShadeColor};
+	background: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
 	&:last-child {
 		margin-bottom: 0;
