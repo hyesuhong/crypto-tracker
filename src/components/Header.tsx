@@ -3,6 +3,7 @@ import { Link, useMatch } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isDarkAtom } from '../atoms';
+import { IconSun, IconMoon } from '../assets/image/icon';
 
 const HeaderWarpper = styled.header`
 	position: relative;
@@ -26,26 +27,38 @@ const ToggleBtn = styled.button`
 	width: 50px;
 	height: 24px;
 	border-radius: 24px;
-	background: ${(props) => props.theme.darkerShadeColor};
+	background: ${(props) => props.theme.shadeColor};
 	border: none;
 	outline: none;
 	cursor: pointer;
 
-	&::before {
+	&::after {
 		content: '';
 		position: absolute;
 		top: 2px;
-		left: 2px;
+		left: calc(100% - 22px);
 		width: 20px;
 		height: 20px;
 		border-radius: 20px;
-		background: ${(props) => props.theme.textColor};
-		opacity: 0.7;
+		background: ${(props) => props.theme.darkerShadeColor};
 		transition: all 0.3s;
 	}
 
-	&.dark::before {
-		left: calc(100% - 22px);
+	&.dark::after {
+		left: 2px;
+	}
+
+	svg {
+		position: absolute;
+		top: 3px;
+		width: 18px;
+		height: 18px;
+	}
+	svg:first-child {
+		left: 4px;
+	}
+	svg:last-child {
+		right: 4px;
 	}
 `;
 
@@ -103,7 +116,10 @@ function Header({ title }: IHeaderProps) {
 				</BackBtn>
 			)}
 			<Title>{title}</Title>
-			<ToggleBtn className={isDark ? 'dark' : 'light'} onClick={toggleTheme} />
+			<ToggleBtn className={isDark ? 'dark' : 'light'} onClick={toggleTheme}>
+				<IconSun fill={isDark ? '#fff' : '#000'} />
+				<IconMoon fill={isDark ? '#fff' : '#000'} />
+			</ToggleBtn>
 		</HeaderWarpper>
 	);
 }

@@ -8,6 +8,9 @@ import { isDarkAtom } from '../atoms';
 const Container = styled.div`
 	background: ${(props) => props.theme.shadeColor};
 	border-radius: 5px;
+	&.load {
+		background: transparent;
+	}
 `;
 
 interface ChartProps {
@@ -33,7 +36,7 @@ function Chart({ coinId }: ChartProps) {
 		// { refetchInterval: 10000 }
 	);
 	return (
-		<Container>
+		<Container className={isLoading ? 'load' : ''}>
 			{isLoading ? (
 				'Loading chart...'
 			) : (
@@ -73,8 +76,8 @@ function Chart({ coinId }: ChartProps) {
 						plotOptions: {
 							candlestick: {
 								colors: {
-									upward: '#0ed27a',
-									downward: '#d3413b',
+									upward: isDark ? '#0ed27a' : '#0ab72d',
+									downward: isDark ? '#d3413b' : '#c3130c',
 								},
 							},
 						},

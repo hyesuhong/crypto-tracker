@@ -227,39 +227,9 @@ function Coin() {
 						<Route
 							path='price'
 							element={
-								<Price
-									coinId={coinId}
-									price={
-										tickersData?.quotes.USD.price
-											? tickersData?.quotes.USD.price
-											: 0
-									}
-									percent_change_15m={
-										tickersData?.quotes.USD.percent_change_15m
-											? tickersData?.quotes.USD.percent_change_15m
-											: 0
-									}
-									market_cap={
-										tickersData?.quotes.USD.market_cap
-											? tickersData?.quotes.USD.market_cap
-											: 0
-									}
-									market_cap_change_24h={
-										tickersData?.quotes.USD.market_cap_change_24h
-											? tickersData?.quotes.USD.market_cap_change_24h
-											: 0
-									}
-									volume_24h={
-										tickersData?.quotes.USD.volume_24h
-											? tickersData?.quotes.USD.volume_24h
-											: 0
-									}
-									volume_24h_change_24h={
-										tickersData?.quotes.USD.volume_24h_change_24h
-											? tickersData?.quotes.USD.volume_24h_change_24h
-											: 0
-									}
-								/>
+								tickersData && (
+									<Price coinId={coinId} quotes={tickersData?.quotes} />
+								)
 							}
 						/>
 					</Routes>

@@ -13,13 +13,24 @@ const PriceList = styled.dl`
 const PriceTitle = styled.dt`
 	font-size: 12px;
 	opacity: 0.5;
+	padding-bottom: 10px;
 	margin-bottom: 10px;
+	border-bottom: 1px solid ${(props) => props.theme.darkerShadeColor};
 `;
 
 const PriceDetail = styled.dd`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	p {
+		text-align: center;
+		span:first-child {
+			display: block;
+			font-size: 12px;
+			margin-bottom: 5px;
+		}
+	}
 `;
 
 const ChangePercent = styled.span<{ changeRate: number }>`
@@ -33,54 +44,93 @@ const ChangePercent = styled.span<{ changeRate: number }>`
 		content: '${(props) => props.changeRate}';
 	}
 	&::after {
-		content: ' %';
+		content: '%';
 	}
 `;
 
 interface PriceProps {
 	coinId: string;
-	price: number;
-	percent_change_15m: number;
-	market_cap: number;
-	market_cap_change_24h: number;
-	volume_24h: number;
-	volume_24h_change_24h: number;
+	quotes: {
+		USD: {
+			ath_date: string;
+			ath_price: number;
+			market_cap: number;
+			market_cap_change_24h: number;
+			percent_change_1h: number;
+			percent_change_1y: number;
+			percent_change_6h: number;
+			percent_change_7d: number;
+			percent_change_12h: number;
+			percent_change_15m: number;
+			percent_change_24h: number;
+			percent_change_30d: number;
+			percent_change_30m: number;
+			percent_from_price_ath: number;
+			price: number;
+			volume_24h: number;
+			volume_24h_change_24h: number;
+		};
+	};
 }
 
-function Price({
-	coinId,
-	price,
-	percent_change_15m,
-	market_cap,
-	market_cap_change_24h,
-	volume_24h,
-	volume_24h_change_24h,
-}: PriceProps) {
+function Price({ coinId, quotes }: PriceProps) {
 	return (
 		<div>
-			{typeof price === 'undefined' ? (
+			{typeof quotes.USD.price === 'undefined' ? (
 				'Loading Price...'
 			) : (
 				<div>
 					<PriceList>
-						<PriceTitle>Price(change rate last 15m)</PriceTitle>
+						<PriceTitle>Price Change</PriceTitle>
 						<PriceDetail>
-							<span>{price}</span>
-							<ChangePercent changeRate={percent_change_15m}></ChangePercent>
+							<p>
+								<span>30min</span>
+								<ChangePercent
+									changeRate={quotes.USD.percent_change_30m}
+								></ChangePercent>
+							</p>
+							<p>
+								<span>24H</span>
+								<ChangePercent
+									changeRate={quotes.USD.percent_change_24h}
+								></ChangePercent>
+							</p>
+							<p>
+								<span>1W</span>
+								<ChangePercent
+									changeRate={quotes.USD.percent_change_7d}
+								></ChangePercent>
+							</p>
+							<p>
+								<span>1M</span>
+								<ChangePercent
+									changeRate={quotes.USD.percent_change_30d}
+								></ChangePercent>
+							</p>
+							<p>
+								<span>1Y</span>
+								<ChangePercent
+									changeRate={quotes.USD.percent_change_1y}
+								></ChangePercent>
+							</p>
 						</PriceDetail>
 					</PriceList>
 					<PriceList>
 						<PriceTitle>Market Cap</PriceTitle>
 						<PriceDetail>
-							<span>{market_cap}</span>
-							<ChangePercent changeRate={market_cap_change_24h}></ChangePercent>
+							<span>{quotes.USD.market_cap}</span>
+							<ChangePercent
+								changeRate={quotes.USD.market_cap_change_24h}
+							></ChangePercent>
 						</PriceDetail>
 					</PriceList>
 					<PriceList>
 						<PriceTitle>Volume(24h)</PriceTitle>
 						<PriceDetail>
-							<span>{volume_24h}</span>
-							<ChangePercent changeRate={volume_24h_change_24h}></ChangePercent>
+							<span>{quotes.USD.volume_24h}</span>
+							<ChangePercent
+								changeRate={quotes.USD.volume_24h_change_24h}
+							></ChangePercent>
 						</PriceDetail>
 					</PriceList>
 				</div>

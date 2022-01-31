@@ -44,6 +44,7 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
+  transition: background-color 0.3s;
 }
 menu, ol, ul {
   list-style: none;
