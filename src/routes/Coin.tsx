@@ -51,8 +51,8 @@ const InfoSummary = styled.dt`
 `;
 
 const InfoDesc = styled.dd`
-  margin-top: 10px;
-  word-break; keep-all;
+	margin-top: 10px;
+	word-break: keep-all;
 `;
 
 const Tabs = styled.p`
