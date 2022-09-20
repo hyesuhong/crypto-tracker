@@ -85,7 +85,7 @@ function Chart({ coinId }: ChartProps) {
 							type: 'solid',
 						},
 						tooltip: { y: { formatter: (value) => `$${value.toFixed(3)}` } },
-						title: { text: 'Price(closed time - 7d)', offsetY: 10 },
+						title: { text: `Today's OHLC`, offsetY: 10 },
 					}}
 				/>
 			)}
