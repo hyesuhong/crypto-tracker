@@ -18,14 +18,22 @@ interface ChartProps {
 }
 
 interface ICoinHistory {
-	time_open: string;
-	time_close: string;
+	time_open: number;
+	time_close: number;
 	open: number;
 	high: number;
 	low: number;
 	close: number;
 	volume: number;
 	market_cap: number;
+}
+
+function dateFormat(year: number, month: number, date: number) {
+	return `${year}-${addZero(month)}-${addZero(date)}`;
+}
+
+function addZero(number: number) {
+	return number.toString().padStart(2, '0');
 }
 
 function Chart({ coinId }: ChartProps) {
@@ -46,7 +54,7 @@ function Chart({ coinId }: ChartProps) {
 						{
 							name: 'Price',
 							data: data?.map((price) => ({
-								x: price.time_close,
+								x: new Date(price.time_close * 1000),
 								y: [price.open, price.high, price.low, price.close],
 							})),
 						},
@@ -62,6 +70,17 @@ function Chart({ coinId }: ChartProps) {
 							type: 'datetime',
 							axisBorder: { show: false },
 							axisTicks: { show: false },
+							labels: { format: 'yyyy-MM-dd' },
+							tooltip: {
+								formatter: (value) => {
+									const date = new Date(value);
+									return dateFormat(
+										date.getFullYear(),
+										date.getMonth(),
+										date.getDate()
+									);
+								},
+							},
 						},
 						theme: { mode: isDark ? 'dark' : 'light' },
 						chart: {
@@ -85,7 +104,7 @@ function Chart({ coinId }: ChartProps) {
 							type: 'solid',
 						},
 						tooltip: { y: { formatter: (value) => `$${value.toFixed(3)}` } },
-						title: { text: `Today's OHLC`, offsetY: 10 },
+						title: { text: `Past 20days' OHLC`, offsetY: 10 },
 					}}
 				/>
 			)}
